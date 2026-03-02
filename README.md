@@ -1,0 +1,2 @@
+# stm32-esp8266-onenet
+单片机与微信小程序：使用stm32串口与esp8266wifi模块，连接新版onenet的mqtt服务器进行数据上行与下行，上报温湿度与接收LED控制指令
