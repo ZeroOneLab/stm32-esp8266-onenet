@@ -6,6 +6,7 @@
 #include "esp8266.h"
 
 #include "usart.h"
+#include "tim.h"
 
 #include "string.h"
 
@@ -74,6 +75,8 @@ static void board_init(void)
 {
 	uint8_t ret;
 
+	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
+
 	at_init();
 
 	ret = esp8266_init(0);
@@ -108,19 +111,25 @@ static void app_init(void)
  */
 uint8_t onenet_mqtt_user_handle(onenet_pub_data_t *data)
 {
-	if (strcmp(data->identifier, "RELAY") == 0) // 对比字符串，这里以"RELAY"为例
+	if (strcmp(data->identifier, "LED1") == 0) // 对比字符串，这里以"LED1"为例
 	{
-		if (data->value.bool_val == 1)
-		{
-			onenet_data[2].value.bool_val = 1;
-			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);
-		}
-		else
-		{
-			onenet_data[2].value.bool_val = 0;
-			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);
-		}
+		onenet_data[2].value.bool_val = data->value.bool_val;
+		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6, data->value.bool_val == 1 ? GPIO_PIN_RESET : GPIO_PIN_SET);
 	}
+
+	if (strcmp(data->identifier, "LED2") == 0)
+	{
+		onenet_data[3].value.u32_val = data->value.u32_val;
+		printf ("[LED2] value: %d\r\n", data->value.u32_val);
+		__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, data->value.u32_val);
+	}
+
+	if (strcmp(data->identifier, "RELAY") == 0)
+	{
+		onenet_data[4].value.bool_val = data->value.bool_val;
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, data->value.bool_val == 1 ? GPIO_PIN_SET : GPIO_PIN_RESET);
+	}
+
 	return 0;
 }
 

@@ -11,7 +11,9 @@
 onenet_pub_data_t onenet_data[] = {
     [0] = {.identifier = "CurrentTemperature",  .value.f32_val = 0.0f,  .type = 3},
     [1] = {.identifier = "CurrentHumidity",     .value.f32_val = 0.0f,  .type = 3},
-    [2] = {.identifier = "RELAY",               .value.bool_val = 0,    .type = 0},
+    [2] = {.identifier = "LED1",                .value.bool_val = 0,    .type = 0},
+    [3] = {.identifier = "LED2",                .value.u32_val = 0,     .type = 1},
+    [4] = {.identifier = "RELAY",               .value.bool_val = 0,    .type = 0},
 };
 // clang-format on
 
@@ -264,7 +266,7 @@ uint8_t onenet_mqtt_parse_propertySet_topic(char *json_data, onenet_mqtt_propert
     char *colon_ptr = strchr(ptr + 11 + strlen(data_out->data.identifier), ':');
     if (colon_ptr)
     {
-        char value_str[16];
+        char value_str[32];
         sscanf(colon_ptr + 1, "%15[^,} \t\n\r]", value_str);
 
         // 根据类型解析值
@@ -278,14 +280,24 @@ uint8_t onenet_mqtt_parse_propertySet_topic(char *json_data, onenet_mqtt_propert
         }
 
         // 根据类型解析值
-        if (strcmp(value_str, "true") == 0)
-            data_out->data.value.u32_val = 1;
-        else if (strcmp(value_str, "false") == 0)
-            data_out->data.value.u32_val = 0;
-        else if (data_out->data.type == 1) // float
-            sscanf(value_str, "%f", &data_out->data.value.f32_val);
-        else if (data_out->data.type == 0 || data_out->data.type == 3) // int
+        switch (data_out->data.type)
+        {
+        case 0: // bool
+            if (strcmp(value_str, "true") == 0)
+                data_out->data.value.u32_val = 1;
+            else if (strcmp(value_str, "false") == 0)
+                data_out->data.value.u32_val = 0;
+            break;
+        case 1: // u32
+        case 2: // s32
             sscanf(value_str, "%d", &data_out->data.value.u32_val);
+            break;
+        case 3: // f32
+            sscanf(value_str, "%f", &data_out->data.value.f32_val);
+            break;
+        case 4: // string
+            strncpy(data_out->data.value.str_val, value_str, sizeof(data_out->data.value.str_val) - 1);
+        }
     }
 
     return 0; // 成功

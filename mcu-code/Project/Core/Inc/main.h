@@ -59,6 +59,8 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define RELAY_Pin GPIO_PIN_4
 #define RELAY_GPIO_Port GPIOA
+#define LED1_Pin GPIO_PIN_6
+#define LED1_GPIO_Port GPIOC
 
 /* USER CODE BEGIN Private defines */
 
