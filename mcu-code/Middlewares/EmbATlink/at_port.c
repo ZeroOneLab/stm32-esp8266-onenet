@@ -33,16 +33,29 @@
 #include "main.h"
 #include "usart.h"
 
+// clang-format off
 /* AT指令表 */
 const at_cmd_config_t at_cmd_table[AT_CMD_LAST] = {
-    [AT_CMD_DEFAULT] = {"AT_CMD_DEFAULT", NULL, 0, 0, 0}, // 默认指令
-    [AT] = {"AT", "OK", 5, 100, 1000},
+    [AT_CMD_DEFAULT]        =   {"AT_CMD_DEFAULT",      NULL,   0,  0,  0}, // 默认指令
+    [ESP_AT]                =   {"AT",                  "OK",   50, 20, 200},
+    [ESP_RST]               =   {"AT+RST",              "OK",   3,  20, 5000},
+    [ESP_RESTORE]           =   {"AT+RESTORE",          "OK",   3,  20, 5000},
+    [ESP_ATE]               =   {"ATE",                 "OK",   3,  20, 200},
+    [ESP_WIFI_SET_MODE]     =   {"AT+CWMODE=",          "OK",   3,  20, 200},
+    [ESP_WIFI_CONNECT]      =   {"AT+CWJAP=",           "OK",   3,  20, 8000},
+    [ESP_MQTT_SET_INFO]     =   {"AT+MQTTUSERCFG=",     "OK",   3,  20, 500},
+    [ESP_MQTT_CONNECT]      =   {"AT+MQTTCONN=",        "OK",   3,  20, 500},
+    [ESP_MQTT_SUBSCRIBE]    =   {"AT+MQTTSUB=",         "OK",   3,  20, 500},
+    [ESP_MQTT_PUBLISH_RAW]  =   {"AT+MQTTPUBRAW=",      NULL,   3,  20, 500},
+    [ESP_MQTT_PUBLISH_DATA] =   {"",                    "OK",   3,  20, 500},
 };
 
 /* AT监听指令表 */
 const char *at_monitor_key_table[AT_MONITOR_LAST] = {
-    [AT_MONITOR_DEFAULT] = "AT_MONITOR_DEFAULT", // 默认指令
+    [AT_MONITOR_DEFAULT]    =   "AT_MONITOR_DEFAULT", // 默认指令
+    [ESP_MQTT_RECV_DATA]    =   "+MQTTSUBRECV:",    
 };
+//clang-format on
 
 /* AT接收数据缓存 */
 uint8_t at_rx_data[AT_LUN_MAX][1];

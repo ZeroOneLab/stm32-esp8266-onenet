@@ -33,9 +33,11 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#define AT_LUN_MAX 1            /* AT设备逻辑单元号最大值 */
+#define AT_LUN_MAX 1 /* AT设备逻辑单元号最大值 */
+
 #define AT_RECV_BUFFER_SIZE 512 /* 接收缓冲区大小 */
 #define AT_SEND_BUFFER_SIZE 512 /* 发送缓冲区大小 */
+
 #define AT_LOG_I(fmt, ...) printf(fmt, ##__VA_ARGS__)
 #define AT_LOG_E(fmt, ...) printf(fmt, ##__VA_ARGS__)
 #define AT_LOG_W(fmt, ...) printf(fmt, ##__VA_ARGS__)
@@ -43,16 +45,27 @@
 typedef enum
 {
     AT_CMD_DEFAULT = 0x00, /* 默认指令(保留放在前后) */
-    AT,
+    ESP_AT,
+    ESP_RST,
+    ESP_RESTORE,
+    ESP_ATE,
+    ESP_WIFI_SET_MODE,
+    ESP_WIFI_CONNECT,
+    ESP_MQTT_SET_INFO,
+    ESP_MQTT_CONNECT,
+    ESP_MQTT_SUBSCRIBE,
+    ESP_MQTT_PUBLISH_RAW,
+    ESP_MQTT_PUBLISH_DATA,
     /* 用户自己定义AT指令 */
-    AT_CMD_LAST,           /* AT指令数量(保留放在最后) */
+    AT_CMD_LAST, /* AT指令数量(保留放在最后) */
 } at_cmd_id_e;
 
 typedef enum
 {
     AT_MONITOR_DEFAULT = 0x00, /* 默认监控指令(保留放在前后) */
+    ESP_MQTT_RECV_DATA,        /* MQTT数据接收 */
     /* 用户自己定义AT指令 */
-    AT_MONITOR_LAST,           /* AT监控指令数量(保留放在最后) */
+    AT_MONITOR_LAST, /* AT监控指令数量(保留放在最后) */
 } at_monitor_key_e;
 
 extern uint8_t at_rx_data[AT_LUN_MAX][1];

@@ -1,5 +1,5 @@
 /**
- * @file    at_deriver.c
+ * @file    at_driver.c
  * @version v1.0
  * @date    2026-02-28
  * @author  ZeroOneLab
@@ -200,13 +200,13 @@ static uint8_t at_cmd_send_and_wait(uint8_t lun, char *cmd, char **out_recv, con
         }
 
         if (res == 0)
-            AT_LOG_I("[AT][SUCC] CMD:%s\r\n", cmd);
+            AT_LOG_I("[AT:%d][SUCC] CMD:%s\r\n", lun, cmd);
         if (res == 0)
             break;
         else if (res == 1)
-            AT_LOG_W("[AT][RETRY][%hhu] CMD:%s, TIME OUT\r\n", send_cnt, cmd);
+            AT_LOG_W("[AT:%d][RETRY][%hhu] CMD:%s, TIME OUT\r\n", lun, send_cnt, cmd);
         else if (res == 2)
-            AT_LOG_E("[AT][ERR][%hhu] CMD:%s, RECV: %s\r\n", send_cnt, cmd, at_recv_buffer[lun]);
+            AT_LOG_E("[AT:%d][ERR][%hhu] CMD:%s, RECV: %s\r\n", lun, send_cnt, cmd, at_recv_buffer[lun]);
     }
 
     at_port_exit_critical(lun);
@@ -220,7 +220,7 @@ static uint8_t at_cmd_send_and_wait(uint8_t lun, char *cmd, char **out_recv, con
  * @param    recv_buffer:接收数据
  * @param    cmd_id:AT指令ID
  * @param    format:格式化字符串
- * @retval   1:超时 2:匹配失败 0:成功
+ * @retval   0:成功 1:超时 2:匹配失败 3:缓冲区已满
  */
 uint8_t at_cmd_format_send_and_recv(uint8_t lun, char **recv_buffer, at_cmd_id_e cmd_id, char *format, ...)
 {
@@ -232,6 +232,9 @@ uint8_t at_cmd_format_send_and_recv(uint8_t lun, char **recv_buffer, at_cmd_id_e
     snprintf(at_send_buffer[lun], sizeof(at_send_buffer[lun]), "%s", at_cmd_table[cmd_id].cmd_str);
     vsnprintf(at_send_buffer[lun] + strlen(at_send_buffer[lun]), sizeof(at_send_buffer[lun]) - strlen(at_send_buffer[lun]), format, arg);
     va_end(arg);
+
+    if (strlen(at_send_buffer[lun]) == (sizeof(at_send_buffer[lun]) - 1))
+        return 3; // 缓冲区已满，可能溢出
 
     res = at_cmd_send_and_wait(lun, at_send_buffer[lun],
                                recv_buffer,

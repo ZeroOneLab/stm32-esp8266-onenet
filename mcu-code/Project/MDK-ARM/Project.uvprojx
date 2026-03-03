@@ -54,7 +54,7 @@
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
           <DebugInformation>1</DebugInformation>
-          <BrowseInformation>1</BrowseInformation>
+          <BrowseInformation>0</BrowseInformation>
           <ListingPath></ListingPath>
           <HexFormatSelection>1</HexFormatSelection>
           <Merge32K>0</Merge32K>
@@ -339,7 +339,7 @@
               <MiscControls>--no-multibyte-chars</MiscControls>
               <Define>USE_HAL_DRIVER,STM32F103xE</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F1xx/Include;../Drivers/CMSIS/Include;..\..\Middlewares\EmbATlink;..\..\App</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F1xx/Include;../Drivers/CMSIS/Include;../../Middlewares/EmbATlink;../../App;../../Drivers/esp8266</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -521,6 +521,21 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>Drivers</GroupName>
+          <Files>
+            <File>
+              <FileName>esp8266.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Drivers\esp8266\esp8266.c</FilePath>
+            </File>
+            <File>
+              <FileName>esp8266.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\Drivers\esp8266\esp8266.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>App</GroupName>
           <Files>
             <File>
@@ -532,6 +547,16 @@
               <FileName>app_main.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\App\app_main.h</FilePath>
+            </File>
+            <File>
+              <FileName>app_onenet_mqtt.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\App\app_onenet_mqtt.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_onenet_mqtt.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\App\app_onenet_mqtt.h</FilePath>
             </File>
           </Files>
         </Group>
