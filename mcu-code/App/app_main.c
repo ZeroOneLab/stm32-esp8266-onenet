@@ -11,20 +11,20 @@
 #include "string.h"
 
 wifi_info_t wifi_info = {
-	.ssid = "XT-BWP",
-	.password = "XT20250512",
+	.ssid = "iqoo123",
+	.password = "12345678",
 };
 
 mqtt_info_t mqtt_info = {
-	.host = "1.12.242.248",
+	.host = "mqtts.heclouds.com",
 	.port = 1883,
-	.client_id = "8888",
-	.username = "xt",
-	.password = "xt12345",
-	.publish_topic_post = "$dev/post/8888",
-	.subscribe_topic_post = "$dev/post_reply/8888",
-	.publish_topic_set = "$dev/set_reply/8888",
-	.subscribe_topic_set = "$dev/set/8888",
+	.client_id = "dev-001",
+	.username = "0g8ZhlAicM",
+	.password = "version=2018-10-31&res=products%2F0g8ZhlAicM%2Fdevices%2Fdev-001&et=1797745146&method=md5&sign=jnvluASkhbMOSiBouw7ZOg%3D%3D",
+	.publish_topic_post = "$sys/0g8ZhlAicM/dev-001/thing/property/post",
+	.subscribe_topic_post = "$sys/0g8ZhlAicM/dev-001/thing/property/post/reply",
+	.publish_topic_set = "$sys/0g8ZhlAicM/dev-001/thing/property/set_reply",
+	.subscribe_topic_set = "$sys/0g8ZhlAicM/dev-001/thing/property/set",
 };
 
 onenet_mqtt_topic_data_t onenet_topic_data = {0}; // mqtt主题数据
@@ -120,7 +120,7 @@ uint8_t onenet_mqtt_user_handle(onenet_pub_data_t *data)
 	if (strcmp(data->identifier, "LED2") == 0)
 	{
 		onenet_data[3].value.u32_val = data->value.u32_val;
-		printf ("[LED2] value: %d\r\n", data->value.u32_val);
+		printf("[LED2] value: %d\r\n", data->value.u32_val);
 		__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, data->value.u32_val);
 	}
 
@@ -183,7 +183,7 @@ void app_main(void)
 
 		if (tick % 20 == 0)
 		{
-			onenet_mqtt_publish_post_data(onenet_data, 3);
+			onenet_mqtt_publish_post_data(onenet_data, 5);
 		}
 
 		tick++;
