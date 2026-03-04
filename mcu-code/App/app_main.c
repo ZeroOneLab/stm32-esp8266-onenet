@@ -10,9 +10,14 @@
 
 #include "string.h"
 
+// wifi_info_t wifi_info = {
+// 	.ssid = "iqoo123",
+// 	.password = "12345678",
+// };
+
 wifi_info_t wifi_info = {
-	.ssid = "iqoo123",
-	.password = "12345678",
+	.ssid = "XT-BWP",
+	.password = "XT20250512",
 };
 
 mqtt_info_t mqtt_info = {
@@ -63,6 +68,11 @@ static void system_init(void)
 	printf("  # 编译时间: %s %s                  	 \r\n", __DATE__, __TIME__);
 	printf("  # 芯片编号：%08X-%08X-%08X \r\n", *(uint32_t *)0x1FFFF7E8, *(uint32_t *)0x1FFFF7EC, *(uint32_t *)0x1FFFF7F0);
 	printf("==========================================================	\r\n");
+	printf("  # 技术交流: Q群 181921938                               \r\n");
+	printf("  # B 站主页: https://space.bilibili.com/404370532 \r\n");
+	printf("  # 博客主页: https://blog.csdn.net/Wang2869902214 \r\n");
+	printf("  # Github主页: https://github.com/ZeroOneLab \r\n");
+	printf("==========================================================	\r\n");
 	printf("\r\n");
 }
 
@@ -81,7 +91,16 @@ static void board_init(void)
 
 	ret = esp8266_init(0);
 	printf("[ESP8266] init code: %d\r\n", ret);
+}
 
+/**
+ * @breif   应用初始化
+ * @param   无
+ * @retval  无
+ */
+static void app_init(void)
+{
+	uint8_t ret;
 	ret = esp8266_wifi_connect(wifi_info.ssid, wifi_info.password);
 	printf("[ESP8266][wifi] connect code: %d\r\n", ret);
 
@@ -93,15 +112,9 @@ static void board_init(void)
 
 	ret = esp8266_mqtt_subscribe(mqtt_info.subscribe_topic_set, 0);
 	printf("[ESP8266][mqtt] subscribe code: %d\r\n", ret);
-}
 
-/**
- * @breif   应用初始化
- * @param   无
- * @retval  无
- */
-static void app_init(void)
-{
+	ret = esp8266_mqtt_subscribe(mqtt_info.subscribe_topic_post, 0);
+	printf("[ESP8266][mqtt] subscribe code: %d\r\n", ret);
 }
 
 /**
@@ -133,6 +146,12 @@ uint8_t onenet_mqtt_user_handle(onenet_pub_data_t *data)
 	return 0;
 }
 
+void onenet_data_update(void)
+{
+	onenet_data[0].value.f32_val += 0.1f;
+	onenet_data[1].value.f32_val += 0.1f;
+}
+
 /**
  * @breif   主函数
  * @param   无
@@ -152,7 +171,6 @@ void app_main(void)
 		if (index != 0xFF) // 如果下标不为0xFF，则说明匹配到了预设的匹配数据
 		{
 			char *str = at_get_recv_buffer(AT_LUN_ESP8266); // 获取接收的数据
-			printf("[ESP8266][mqtt] recv: %s\r\n", str);
 
 			// 先判断第一个主题
 			ret = onenet_mqtt_get_topic_data((char *)mqtt_info.subscribe_topic_set, str, &onenet_topic_data); // 获取mqtt设备属性设置主题
@@ -183,7 +201,8 @@ void app_main(void)
 
 		if (tick % 20 == 0)
 		{
-			onenet_mqtt_publish_post_data(onenet_data, 5);
+			onenet_data_update();
+			onenet_mqtt_publish_post_data(onenet_data, sizeof(onenet_data) / sizeof(onenet_data[0]));
 		}
 
 		tick++;

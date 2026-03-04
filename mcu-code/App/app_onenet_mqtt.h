@@ -29,7 +29,7 @@ typedef struct
     onenet_pub_data_t data; // 数据
 } onenet_mqtt_propertySet_t;
 
-extern onenet_pub_data_t onenet_data[];
+extern onenet_pub_data_t onenet_data[5];
 
 /**
  * @breif   MQTT发布数据

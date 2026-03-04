@@ -194,14 +194,15 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* uartHandle)
 
 /* USER CODE BEGIN 1 */
 #include "at_driver.h"
+#include "esp8266.h"
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
   if (huart->Instance == USART3)
   {
     // 驱动接收核心入口：传递LUN、接收数据、长度
-    at_uart_recv_handler(0, at_rx_data[0], 1);
+    at_uart_recv_handler(AT_LUN_ESP8266, at_rx_data[AT_LUN_ESP8266], 1);
     // 重新开启串口中断接收
-    HAL_UART_Receive_IT(&huart3, at_rx_data[0], 1);
+    HAL_UART_Receive_IT(&huart3, at_rx_data[AT_LUN_ESP8266], 1);
   }
 }
 /* USER CODE END 1 */

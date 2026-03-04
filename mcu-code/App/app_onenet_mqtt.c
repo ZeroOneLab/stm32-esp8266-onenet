@@ -8,7 +8,7 @@
 #include "math.h"
 
 // clang-format off
-onenet_pub_data_t onenet_data[] = {
+onenet_pub_data_t onenet_data[5] = {
     [0] = {.identifier = "CurrentTemperature",  .value.f32_val = 0.0f,  .type = 3},
     [1] = {.identifier = "CurrentHumidity",     .value.f32_val = 0.0f,  .type = 3},
     [2] = {.identifier = "LED1",                .value.bool_val = 0,    .type = 0},
@@ -26,7 +26,7 @@ static char onenet_mqtt_post_json_buf[256];
  */
 static uint8_t onenet_mqtt_publish(char *topic, void *payload, uint16_t payload_len)
 {
-    return esp8266_mqtt_publish(topic, payload, payload_len, 0, 0);
+    return esp8266_mqtt_publish(topic, payload, payload_len + 2, 0, 0); //+2计算换行回车字符
 }
 
 /**
