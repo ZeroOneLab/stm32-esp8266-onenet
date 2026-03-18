@@ -11,20 +11,20 @@
 #include "string.h"
 
 wifi_info_t wifi_info = {
-	.ssid = "iqoo123",
-	.password = "12345678",
+	.ssid = "iqoo123",		// wifi 账号
+	.password = "12345678", // wifi 密码
 };
 
 mqtt_info_t mqtt_info = {
-	.host = "mqtts.heclouds.com",
-	.port = 1883,
-	.client_id = "dev-001",
-	.username = "0g8ZhlAicM",
-	.password = "version=2018-10-31&res=products%2F0g8ZhlAicM%2Fdevices%2Fdev-001&et=1797745146&method=md5&sign=jnvluASkhbMOSiBouw7ZOg%3D%3D",
-	.publish_topic_post = "$sys/0g8ZhlAicM/dev-001/thing/property/post",
-	.subscribe_topic_post = "$sys/0g8ZhlAicM/dev-001/thing/property/post/reply",
-	.publish_topic_set = "$sys/0g8ZhlAicM/dev-001/thing/property/set_reply",
-	.subscribe_topic_set = "$sys/0g8ZhlAicM/dev-001/thing/property/set",
+	.host = "mqtts.heclouds.com", // mqtt 服务器地址
+	.port = 1883,				  // mqtt 端口
+	.client_id = "dev-001",		  // mqtt 设备ID
+	.username = "E09M9yRDI0",	  // mqtt 用户名
+	.password = "version=2018-10-31&res=products%2FE09M9yRDI0%2Fdevices%2Fdev-001&et=1804744681&method=md5&sign=MBXvZRERhk%2FFq3x2pBJElQ%3D%3D",
+	.publish_topic_post = "$sys/E09M9yRDI0/dev-001/thing/property/post",		 // mqtt 属性上报请求主题（发布）
+	.subscribe_topic_post = "$sys/E09M9yRDI0/dev-001/thing/property/post/reply", // mqtt 属性上报响应主题（订阅）
+	.publish_topic_set = "$sys/E09M9yRDI0/dev-001/thing/property/set_reply",	 // mqtt 属性设置响应主题（发布）
+	.subscribe_topic_set = "$sys/E09M9yRDI0/dev-001/thing/property/set",		 // mqtt 属性设置请求主题（订阅）
 };
 
 onenet_mqtt_topic_data_t onenet_topic_data = {0}; // mqtt主题数据
@@ -59,7 +59,7 @@ static void system_init(void)
 	printf("                                                     			\r\n");
 	printf("==========================================================		\r\n");
 	printf("  # 程序名称: IoT OneNET MQTT						\r\n");
-	printf("  # 固件版本: V0.0.1                                      		\r\n");
+	printf("  # 固件版本: V1.0.0                                      		\r\n");
 	printf("  # 编译时间: %s %s                  	 \r\n", __DATE__, __TIME__);
 	printf("  # 芯片编号：%08X-%08X-%08X \r\n", *(uint32_t *)0x1FFFF7E8, *(uint32_t *)0x1FFFF7EC, *(uint32_t *)0x1FFFF7F0);
 	printf("==========================================================	\r\n");
@@ -96,19 +96,16 @@ static void board_init(void)
 static void app_init(void)
 {
 	uint8_t ret;
-	ret = esp8266_wifi_connect(wifi_info.ssid, wifi_info.password);
+	ret = esp8266_wifi_connect(wifi_info.ssid, wifi_info.password); // wifi连接
 	printf("[ESP8266][wifi] connect code: %d\r\n", ret);
 
-	ret = esp8266_mqtt_connect(mqtt_info.client_id, mqtt_info.username, mqtt_info.password, mqtt_info.host, mqtt_info.port);
+	ret = esp8266_mqtt_connect(mqtt_info.client_id, mqtt_info.username, mqtt_info.password, mqtt_info.host, mqtt_info.port); // mqtt连接
 	printf("[ESP8266][mqtt] connect code: %d\r\n", ret);
 
-	ret = esp8266_mqtt_publish(mqtt_info.publish_topic_post, "{\"id\":\"8888\"}", 14, 0, 0);
-	printf("[ESP8266][mqtt] publish code: %d\r\n", ret);
-
-	ret = esp8266_mqtt_subscribe(mqtt_info.subscribe_topic_set, 0);
+	ret = esp8266_mqtt_subscribe(mqtt_info.subscribe_topic_set, 0); // mqtt订阅 属性设置响应
 	printf("[ESP8266][mqtt] subscribe code: %d\r\n", ret);
 
-	ret = esp8266_mqtt_subscribe(mqtt_info.subscribe_topic_post, 0);
+	ret = esp8266_mqtt_subscribe(mqtt_info.subscribe_topic_post, 0); //	mqtt订阅 属性上报响应
 	printf("[ESP8266][mqtt] subscribe code: %d\r\n", ret);
 }
 
@@ -122,29 +119,36 @@ uint8_t onenet_mqtt_user_handle(onenet_pub_data_t *data)
 	if (strcmp(data->identifier, "LED1") == 0) // 对比字符串，这里以"LED1"为例
 	{
 		onenet_data[2].value.bool_val = data->value.bool_val;
-		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6, data->value.bool_val == 1 ? GPIO_PIN_RESET : GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6, (data->value.bool_val == 1) ? GPIO_PIN_RESET : GPIO_PIN_SET);
 	}
 
 	if (strcmp(data->identifier, "LED2") == 0)
 	{
 		onenet_data[3].value.u32_val = data->value.u32_val;
 		printf("[LED2] value: %d\r\n", data->value.u32_val);
-		__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, data->value.u32_val);
+		__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, data->value.u32_val); // 设置PWM占空比
 	}
 
-	if (strcmp(data->identifier, "RELAY") == 0)
+	if (strcmp(data->identifier, "JDQ") == 0)
 	{
 		onenet_data[4].value.bool_val = data->value.bool_val;
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, data->value.bool_val == 1 ? GPIO_PIN_SET : GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, (data->value.bool_val == 1) ? GPIO_PIN_SET : GPIO_PIN_RESET);
 	}
+
+	/* 后续用户处理逻辑 */
 
 	return 0;
 }
 
+/**
+ * @breif   属性数据更新
+ * @param   无
+ * @retval  无
+ */
 void onenet_data_update(void)
 {
-	onenet_data[0].value.f32_val += 0.1f;
-	onenet_data[1].value.f32_val += 0.1f;
+	onenet_data[0].value.f32_val += 0.1f; // 模拟数据
+	onenet_data[1].value.f32_val += 0.1f; // 模拟数据
 }
 
 /**
@@ -194,10 +198,10 @@ void app_main(void)
 			at_clear_recv_buffer(AT_LUN_ESP8266);
 		}
 
-		if (tick % 20 == 0)
+		if (tick % 50 == 0) // 每5000ms执行一次
 		{
-			onenet_data_update();
-			onenet_mqtt_publish_post_data(onenet_data, sizeof(onenet_data) / sizeof(onenet_data[0]));
+			onenet_data_update(); // 属性数据更新
+			onenet_mqtt_publish_post_data(onenet_data, ONENET_DATA_NUM);	//数据发布
 		}
 
 		tick++;

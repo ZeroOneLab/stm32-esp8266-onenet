@@ -16,10 +16,10 @@ typedef struct
     char client_id[32];             // MQTT客户端ID
     char username[32];              // MQTT用户名
     char password[256];             // MQTT密码
-    char publish_topic_post[128];   // MQTT发布主题：设备属性上报请求
-    char subscribe_topic_post[128]; // MQTT订阅主题：设备属性上报响应
-    char publish_topic_set[128];    // MQTT发布主题：设备属性设置请求
-    char subscribe_topic_set[128];  // MQTT订阅主题：设备属性设置响应
+    char publish_topic_post[128];   // MQTT发布主题：属性上报请求主题
+    char subscribe_topic_post[128]; // MQTT订阅主题：属性上报响应主题
+    char publish_topic_set[128];    // MQTT发布主题：属性设置响应主题
+    char subscribe_topic_set[128];  // MQTT订阅主题：属性设置请求主题
 } mqtt_info_t;
 
 extern wifi_info_t wifi_info;

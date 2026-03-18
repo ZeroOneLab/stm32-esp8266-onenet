@@ -44,7 +44,7 @@ const at_cmd_config_t at_cmd_table[AT_CMD_LAST] = {
     [ESP_WIFI_SET_MODE]     =   {"AT+CWMODE=",          "OK",   3,  20, 200},
     [ESP_WIFI_CONNECT]      =   {"AT+CWJAP=",           "OK",   3,  20, 8000},
     [ESP_MQTT_SET_INFO]     =   {"AT+MQTTUSERCFG=",     "OK",   3,  20, 200},
-    [ESP_MQTT_CONNECT]      =   {"AT+MQTTCONN=",        "OK",   3,  20, 200},
+    [ESP_MQTT_CONNECT]      =   {"AT+MQTTCONN=",        "OK",   3,  20, 2000},
     [ESP_MQTT_SUBSCRIBE]    =   {"AT+MQTTSUB=",         "OK",   3,  20, 200},
     [ESP_MQTT_PUBLISH_RAW]  =   {"AT+MQTTPUBRAW=",      NULL,   3,  20, 100},
     [ESP_MQTT_PUBLISH_DATA] =   {"",                    "OK",   3,  20, 200},

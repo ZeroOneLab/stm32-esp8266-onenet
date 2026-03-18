@@ -8,16 +8,16 @@
 #include "math.h"
 
 // clang-format off
-onenet_pub_data_t onenet_data[5] = {
+onenet_pub_data_t onenet_data[ONENET_DATA_NUM] = {
     [0] = {.identifier = "CurrentTemperature",  .value.f32_val = 0.0f,  .type = 3},
     [1] = {.identifier = "CurrentHumidity",     .value.f32_val = 0.0f,  .type = 3},
     [2] = {.identifier = "LED1",                .value.bool_val = 0,    .type = 0},
     [3] = {.identifier = "LED2",                .value.u32_val = 0,     .type = 1},
-    [4] = {.identifier = "RELAY",               .value.bool_val = 0,    .type = 0},
+    [4] = {.identifier = "JDQ",               	.value.bool_val = 0,    .type = 0},
 };
 // clang-format on
 
-static char onenet_mqtt_post_json_buf[256];
+static char onenet_mqtt_post_json_buf[256]; // 用于存储MQTT发布的json数据，如果onenet的属性数量多，需要调大缓冲区
 
 /**
  * @breif   MQTT发布数据
