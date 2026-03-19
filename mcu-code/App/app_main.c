@@ -10,14 +10,9 @@
 
 #include "string.h"
 
-//wifi_info_t wifi_info = {
-//	.ssid = "iqoo123",		// wifi 账号
-//	.password = "12345678", // wifi 密码
-//};
-
 wifi_info_t wifi_info = {
-	.ssid = "XT-BWP",		// wifi 账号
-	.password = "XT20250512", // wifi 密码
+	.ssid = "iqoo123",		// wifi 账号
+	.password = "12345678", // wifi 密码
 };
 
 mqtt_info_t mqtt_info = {
