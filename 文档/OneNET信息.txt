@@ -1,12 +1,43 @@
+mqtt使用的token：
+
 产品id：E09M9yRDI0
 设备名称：dev-001
 设备密钥：RmFsOTFvTWlwbmFTOHFQUlNMOHpJdFZpdk5WS3drOEY=
 截止时间戳：1804744681
-token:
-version=2018-10-31&res=products%2FE09M9yRDI0%2Fdevices%2Fdev-001&et=1804744681&method=md5&sign=MBXvZRERhk%2FFq3x2pBJElQ%3D%3D
+
+
+软件填写内容：
 
 res:			products/E09M9yRDI0/devices/dev-001
 et:			1804744681
 key:			RmFsOTFvTWlwbmFTOHFQUlNMOHpJdFZpdk5WS3drOEY=
 method:		md5
 version:		2018-10-31
+
+生成token:
+version=2018-10-31&res=products%2FE09M9yRDI0%2Fdevices%2Fdev-001&et=1804744681&method=md5&sign=MBXvZRERhk%2FFq3x2pBJElQ%3D%3D
+
+
+=====================================
+
+微信小程序使用的token：
+
+userid：341108
+AccessKey：45matxHj/UmOHpGHMYU2Cubti/GsLFfyNjARB6kEskP7p7HizszrBGyeFYR2LX+wNlftkG87u0Onz+menvFfSw==
+截止时间戳：1804744681
+
+软件填写内容：
+
+res:			341108
+et:			1804744681
+key:			45matxHj/UmOHpGHMYU2Cubti/GsLFfyNjARB6kEskP7p7HizszrBGyeFYR2LX+wNlftkG87u0Onz+menvFfSw==
+method:		md5
+version:		2022-05-01
+
+生成token：
+version=2022-05-01&res=userid%2F341108&et=1798968116&method=md5&sign=g432Wx47eq6J2IPVmYjiIQ%3D%3D
+
+
+
+
+

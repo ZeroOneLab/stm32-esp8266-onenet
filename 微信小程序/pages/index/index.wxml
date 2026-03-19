@@ -1,0 +1,93 @@
+<!-- index.wxml -->
+<view class="page-container">
+<!-- 头部天气 -->
+<view class="header-container">
+    <view class="header-1">
+      <view>空气质量</view>
+      <view>气温</view>
+      <view>宝安-深圳市</view>
+    </view>
+    <view class="header-2">
+      <view>34优</view>
+      <view>26℃</view>
+      <view>晴朗</view>
+    </view>
+    <view class="header-3">
+      <view>晴空万里，温度适宜，注意防晒</view>
+    </view>
+  </view>
+  <!-- 中间数据 -->
+  <view class="data-container">
+    <!-- 数据项：设备状态 -->
+    <view class="data-item device-status">
+      <image src="/图片/设备状态.png" class="data-picture"/>
+      <view class="data-text">
+        <view class="data-title">设备状态</view>
+        <view class="data-value" wx:if="{{deviceStatusLog.data.list[0].status == 1}}">在线</view>
+        <view class="data-value" wx:elif="{{deviceStatusLog.data.list[0].status != 1}}" style="color: red;">离线</view>
+      </view>
+    </view>
+
+    <!-- 数据项：传感器状态 -->
+    <view class="data-item sensor-status">
+      <image src="/图片/传感器.png" class="data-picture"/>
+      <view class="data-text">
+        <view class="data-title">传感器状态</view>
+        <view class="data-value">正常</view>
+      </view>
+    </view>
+
+    <!-- 数据项：当前湿度 -->
+    <view class="data-item CurrentHumidity">
+      <image src="/图片/CurrentHumidity.png" class="data-picture"/>
+      <view class="data-text">
+        <view class="data-title">当前湿度</view>
+        <view class="data-value">{{deviceValueMap.CurrentHumidity}}℃</view>
+      </view>
+    </view>
+
+    <!-- 数据项：当前温度 -->
+    <view class="data-item CurrentTemperature">
+      <image src="/图片/CurrentTemperature.png" class="data-picture"/>
+      <view class="data-text">
+        <view class="data-title">当前温度</view>
+        <view class="data-value">{{deviceValueMap.CurrentTemperature}}%</view>
+      </view>
+    </view>
+
+    <!-- 数据项：灯1开关 -->
+    <view class="data-item LED1">
+      <image src="/图片/LED1.png" class="data-picture"/>
+      <view class="data-text">
+        <view class="data-title">灯1开关</view>
+        <view class="data-value">
+          <switch checked="{{deviceValueMap.LED1}}" bindchange="onenet_set_device_property" data-param="LED1" color="#3d77ff"/>
+        </view>
+      </view>
+    </view>
+
+    <!-- 数据项：继电器开关 -->
+    <view class="data-item JDQ">
+      <image src="/图片/JDQ.png" class="data-picture"/>
+      <view class="data-text">
+        <view class="data-title">继电器开关</view>
+        <view class="data-value">
+          <switch checked="{{deviceValueMap.JDQ}}" bindchange="onenet_set_device_property" data-param="JDQ" color="#3d77ff"/>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- LED2亮度控制 -->
+  <view class="draw-slip">
+    <view class="data-item LED2">
+      <image src="/图片/LED2.png" class="data-picture"/>
+      <view class="data-text">
+        <view class="data-title">灯2亮度</view>
+        <view class="data-value">
+          <slider min="0" max="100" step="1" value="{{deviceValueMap.LED2}}" bindchange="onenet_set_device_property" data-param="LED2" show-value/>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

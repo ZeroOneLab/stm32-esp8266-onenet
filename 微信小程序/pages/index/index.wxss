@@ -1,0 +1,82 @@
+/* 通用样式 */
+.page-container {
+  padding: 36rpx;
+}
+
+.header-container{
+  background-color: #3d7ef9;
+  color: #fff;
+  border-radius: 36rpx;
+  padding: 32rpx 64rpx;
+}
+.header-container .header-1{
+  display: flex;
+  justify-content: space-between;
+  font-size: 28rpx;
+}
+.header-container .header-2{
+  display: flex;
+  justify-content: space-between;
+  font-size: 64rpx;
+}
+.header-container .header-3{
+  margin-top: 36rpx;
+  font-size: 24rpx;
+}
+
+/* 数据项通用样式 */
+.data-container,
+.light-control-container {
+  margin-top: 36rpx;
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(auto-fill, 300rpx);
+  grid-gap: 36rpx;
+}
+
+.data-item {
+  position: relative;
+  background-color: #fff;
+  height: 180rpx;
+  box-shadow: #d6d6d6 0 0 8rpx;
+  border-radius: 36rpx;
+  display: flex;
+  justify-content: space-between;
+}
+
+.data-item .data-text {
+  position: absolute;
+  top: 36rpx;
+  right: 24rpx;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.data-item .data-picture {
+  position: absolute;
+  height: 96rpx;
+  width: 96rpx;
+  left: 16rpx;
+  top: 16rpx;
+}
+
+.data-item .data-title {
+  font-size: 28rpx;
+  color: #7f7f7f;
+}
+
+.data-item .data-value {
+  font-size: 52rpx;
+  font-weight: bold;
+  color: #7f7f7f;
+}
+
+/* 特定数据项样式 */
+.draw-slip {
+  grid-template-columns: repeat(auto-fill, 635rpx);
+}
+
+.draw-slip .data-item .data-text {
+  width: 75%;
+  text-align: center;
+}

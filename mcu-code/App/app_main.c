@@ -10,9 +10,14 @@
 
 #include "string.h"
 
+//wifi_info_t wifi_info = {
+//	.ssid = "iqoo123",		// wifi 账号
+//	.password = "12345678", // wifi 密码
+//};
+
 wifi_info_t wifi_info = {
-	.ssid = "iqoo123",		// wifi 账号
-	.password = "12345678", // wifi 密码
+	.ssid = "XT-BWP",		// wifi 账号
+	.password = "XT20250512", // wifi 密码
 };
 
 mqtt_info_t mqtt_info = {
@@ -149,6 +154,12 @@ void onenet_data_update(void)
 {
 	onenet_data[0].value.f32_val += 0.1f; // 模拟数据
 	onenet_data[1].value.f32_val += 0.1f; // 模拟数据
+	
+	if(onenet_data[0].value.f32_val > 40.0f)
+	{
+		onenet_data[0].value.f32_val = 0;
+		onenet_data[1].value.f32_val = 0;
+	}
 }
 
 /**
