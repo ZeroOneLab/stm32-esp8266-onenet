@@ -1,0 +1,12 @@
+产品id：E09M9yRDI0
+设备名称：dev-001
+设备密钥：RmFsOTFvTWlwbmFTOHFQUlNMOHpJdFZpdk5WS3drOEY=
+截止时间戳：1804744681
+token:
+version=2018-10-31&res=products%2FE09M9yRDI0%2Fdevices%2Fdev-001&et=1804744681&method=md5&sign=MBXvZRERhk%2FFq3x2pBJElQ%3D%3D
+
+res:			products/E09M9yRDI0/devices/dev-001
+et:			1804744681
+key:			RmFsOTFvTWlwbmFTOHFQUlNMOHpJdFZpdk5WS3drOEY=
+method:		md5
+version:		2018-10-31

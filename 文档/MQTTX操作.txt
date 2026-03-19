@@ -1,0 +1,54 @@
+1.设备属性上报：上报温湿度数据内容
+上行(OneJSON）：客户端上报数据
+请求Topic（发布主题）:
+
+$sys/{pid}/{device-name}/thing/property/post
+$sys/E09M9yRDI0/dev-001/thing/property/post
+OneJSON数据格式:
+
+{
+  "id": "123",
+  "params": {
+    "CurrentHumidity": {
+      "value": 22.3
+    },
+    "CurrentTemperature": {
+      "value": 33.4
+    }
+  }
+}
+
+
+响应Topic（订阅主题）:
+
+$sys/{pid}/{device-name}/thing/property/post/reply
+$sys/E09M9yRDI0/dev-001/thing/property/post/reply
+
+
+
+
+
+
+
+2.设备属性设置
+下行(OneJSON):客户端接收数据
+请求Topic（订阅主题）:
+
+$sys/{pid}/{device-name}/thing/property/set
+$sys/E09M9yRDI0/dev-001/thing/property/set
+
+
+OneNET API调试参数 例如："LED1":true
+
+
+响应Topic（发布主题）:
+
+$sys/{pid}/{device-name}/thing/property/set_reply
+$sys/E09M9yRDI0/dev-001/thing/property/set_reply
+OneJSON数据格式:
+
+{
+    "id":"123",
+    "code":200,
+    "msg":"success"
+}

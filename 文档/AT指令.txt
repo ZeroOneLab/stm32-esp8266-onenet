@@ -1,0 +1,36 @@
+AT 命令集： https://docs.espressif.com/projects/esp-at/zh_CN/latest/esp32/AT_Command_Set/index.html
+
+
+指令末尾都要添加换行回车两个字符（切换新行）：\r\n
+
+AT 					//检测模组在线
+
+AT+RST 				//复位
+
+AT+RESTORE 		//恢复出厂设置
+
+ATE0 				//关闭回显
+
+AT+CWMODE=1,0	//设置wifi模式
+
+AT+CWJAP="iqoo123","12345678"		//连接热点，2.4GHz的wifi热点
+
+
+AT+MQTTUSERCFG=0,1,"dev-001","E09M9yRDI0","version=2018-10-31&res=products%2FE09M9yRDI0%2Fdevices%2Fdev-001&et=1804744681&method=md5&sign=MBXvZRERhk%2FFq3x2pBJElQ%3D%3D",0,0,""			//登录onenet信息
+
+AT+MQTTCONN=0,"mqtts.heclouds.com",1883,1			//连接Onenet mqtt
+
+AT+MQTTSUB=0,"$sys/E09M9yRDI0/dev-001/thing/property/post/reply",0		//订阅上报响应
+
+AT+MQTTPUBRAW=0,"$sys/E09M9yRDI0/dev-001/thing/property/post",117,0,0		//长数据发布，属性上报
+
+{"id":"123","params":{"CurrentTemperature":{"value":18.7},"CurrentHumidity":{"value":20.4},"LED1":{"value":false}}}		//需要发布的数据（记得算\r\n 两个长度）
+
+AT+MQTTSUB=0,"$sys/E09M9yRDI0/dev-001/thing/property/set",0		//属性设置订阅，接收LED控制指令
+
++MQTTSUBRECV:0,"$sys/E09M9yRDI0/dev-001/thing/property/set",49,{"id":"5","version":"1.0","params":{"LED1":true}}			//AT指令接收到的数据
+
+AT+MQTTPUBRAW=0,"$sys/E09M9yRDI0/dev-001/thing/property/set_reply",41,0,0		//长数据发布，属性设置响应
+
+{"id":"6","code":200,"msg":"user_succ"}		//属性设置响应
+
