@@ -48,11 +48,11 @@ Page({
     // 设备属性定义与值存储
     // 结构：{identifier: "唯一标识", value: 初始值, type: "数据类型"}
     deviceData: [
-      { identifier: "CurrentTemperature", value: 0,     type: "float" },  //当前温度
-      { identifier: "CurrentHumidity",    value: 0,     type: "float" },  //当前温度
-      { identifier: "LED1",               value: false, type: "bool" },   //灯1
-      { identifier: "LED2",               value: 0,     type: "int32" },  //灯2
-      { identifier: "JDQ",                value: false, type: "bool" },   //继电器
+      { identifier: "CurrentTemperature", value: 0, type: "float" },  //当前温度
+      { identifier: "CurrentHumidity", value: 0, type: "float" },  //当前温度
+      { identifier: "LED1", value: false, type: "bool" },   //灯1
+      { identifier: "LED2", value: 0, type: "int32" },  //灯2
+      { identifier: "JDQ", value: false, type: "bool" },   //继电器
     ],
     // 视图层绑定映射
     deviceValueMap: {},
@@ -74,7 +74,7 @@ Page({
   /**
    * 启动数据刷新定时器
    */
-   startDataRefreshTimer() {
+  startDataRefreshTimer() {
     // 先清除可能已存在的定时器，避免重复
     this.clearDataRefreshTimer();
     // 启动新的定时器
@@ -108,11 +108,11 @@ Page({
    */
   async fetchDeviceProperties() {
     const url = `${CONFIG.API_BASE_URL}/thingmodel/query-device-property?product_id=${CONFIG.PRODUCT_ID}&device_name=${CONFIG.DEVICE_NAME}`;
-    
+
     try {
       const res = await this.wxRequest({ url, method: 'GET' });
       console.log("设备属性数据获取成功：", res.data);
-      
+
       if (res.data.code === 0 && res.data.data) {
         this.updateLocalDeviceData(res.data.data);
       } else {
@@ -134,7 +134,7 @@ Page({
 
     remoteDataArray.forEach(remoteItem => {
       const localIndex = this.data.deviceData.findIndex(localItem => localItem.identifier === remoteItem.identifier);
-      
+
       if (localIndex !== -1) {
         const targetType = this.data.deviceData[localIndex].type;
         const processedValue = valueConverter(remoteItem.value, targetType);
@@ -156,7 +156,7 @@ Page({
   async fetchDeviceStatus() {
     const { start_time, end_time } = getStatusQueryTimestamps();
     const url = `${CONFIG.API_BASE_URL}/device/status-history?product_id=${CONFIG.PRODUCT_ID}&device_name=${CONFIG.DEVICE_NAME}&start_time=${start_time}&end_time=${end_time}&limit=${CONFIG.STATUS_QUERY_LIMIT}`;
-    
+
     try {
       const res = await this.wxRequest({ url, method: 'GET' });
       this.setData({ deviceStatusLog: res.data });
@@ -171,8 +171,8 @@ Page({
   async onenet_set_device_property(event) {
     const param_name = event.currentTarget.dataset.param;
     const new_value = event.detail.value;
-    
-    this.showToast('设置中...', 'loading', true); // 显示加载中
+
+    wx.showLoading({ title: '设置中...', mask: true }); // 显示加载中
 
     const requestData = {
       product_id: CONFIG.PRODUCT_ID,
@@ -186,20 +186,21 @@ Page({
         method: 'POST',
         data: requestData
       });
-      
+
       console.log('属性设置请求返回：', res.data);
-      
+      wx.hideLoading();
       if (res.data && res.data.code === 0) {
         this.showToast('设置成功', 'success');
         this.updatePropertyImmediately(param_name, new_value); // 立即更新UI
         this.startDataRefreshTimer();
         console.log('因设备属性变更，数据轮询定时器已重置');
       } else {
-        this.showToast(res.data.msg || '设置失败', 'none');
+        wx.showToast({ title: res.data.msg || '设置失败', icon: 'none', duration: 2000 });
       }
     } catch (error) {
       console.error('属性设置请求失败：', error);
-      this.showToast('网络错误，设置失败', 'none');
+      wx.hideLoading();
+      wx.showToast({ title: '网络错误，设置失败', icon: 'none', duration: 2000 });
     }
   },
 
@@ -240,16 +241,12 @@ Page({
   },
 
   /**
-   * 显示Toast提示的快捷方法
+   * 显示Toast提示的快捷方法（仅普通toast，不处理loading）
    * @param {string} title - 提示文字
-   * @param {string} icon - 图标 ('success', 'loading', 'none')
+   * @param {string} icon - 图标 ('success', 'none')
    * @param {boolean} [mask=false] - 是否显示透明蒙层
    */
   showToast(title, icon = 'none', mask = false) {
-    // 如果当前是loading，先隐藏
-    if (icon !== 'loading') {
-      wx.hideLoading();
-    }
     wx.showToast({ title, icon, duration: icon === 'success' ? 1500 : 2000, mask });
   },
 });

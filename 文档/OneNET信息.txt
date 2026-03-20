@@ -22,20 +22,20 @@ version=2018-10-31&res=products%2FE09M9yRDI0%2Fdevices%2Fdev-001&et=1804744681&m
 
 微信小程序使用的token：
 
-userid：341108
-AccessKey：45matxHj/UmOHpGHMYU2Cubti/GsLFfyNjARB6kEskP7p7HizszrBGyeFYR2LX+wNlftkG87u0Onz+menvFfSw==
-截止时间戳：1804744681
+userid：
+AccessKey：
+截止时间戳：
 
 软件填写内容：
 
-res:			341108
-et:			1804744681
-key:			45matxHj/UmOHpGHMYU2Cubti/GsLFfyNjARB6kEskP7p7HizszrBGyeFYR2LX+wNlftkG87u0Onz+menvFfSw==
-method:		md5
-version:		2022-05-01
+res:			
+et:			
+key:			
+method:		
+version:		
 
 生成token：
-version=2022-05-01&res=userid%2F341108&et=1798968116&method=md5&sign=g432Wx47eq6J2IPVmYjiIQ%3D%3D
+
 
 
 
