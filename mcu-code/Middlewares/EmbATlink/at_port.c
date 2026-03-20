@@ -1,7 +1,7 @@
 /**
  * @file    at_port.c
- * @version v1.0
- * @date    2026-02-28
+ * @version v1.1
+ * @date    2026-03-20
  * @author  ZeroOneLab
  * @website https://github.com/ZeroOneLab/EmbATlink.git
  *
@@ -46,8 +46,8 @@ const at_cmd_config_t at_cmd_table[AT_CMD_LAST] = {
     [ESP_MQTT_SET_INFO]     =   {"AT+MQTTUSERCFG=",     "OK",   3,  20, 200},
     [ESP_MQTT_CONNECT]      =   {"AT+MQTTCONN=",        "OK",   3,  20, 2000},
     [ESP_MQTT_SUBSCRIBE]    =   {"AT+MQTTSUB=",         "OK",   3,  20, 200},
-    [ESP_MQTT_PUBLISH_RAW]  =   {"AT+MQTTPUBRAW=",      NULL,   3,  20, 100},
-    [ESP_MQTT_PUBLISH_DATA] =   {"",                    "OK",   3,  20, 200},
+    [ESP_MQTT_PUBLISH_RAW]  =   {"AT+MQTTPUBRAW=",      NULL,   1,  20, 100},
+    [ESP_MQTT_PUBLISH_DATA] =   {"",                    "OK",   1,  20, 200},
 };
 
 /* AT监听指令表 */
@@ -57,7 +57,7 @@ const char *at_monitor_key_table[AT_MONITOR_LAST] = {
 };
 //clang-format on
 
-/* AT接收数据缓存 */
+/* AT接收数据缓存,目前单次最大接收1字节 */
 uint8_t at_rx_data[AT_LUN_MAX][1];
 
 /**

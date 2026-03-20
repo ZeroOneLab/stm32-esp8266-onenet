@@ -67,6 +67,7 @@ static void system_init(void)
 	printf("  # B 站主页: https://space.bilibili.com/404370532 \r\n");
 	printf("  # 博客主页: https://blog.csdn.net/Wang2869902214 \r\n");
 	printf("  # Github主页: https://github.com/ZeroOneLab \r\n");
+	printf("  # Gitee主页:	https://gitee.com/Wang2869902214 \r\n");
 	printf("==========================================================	\r\n");
 	printf("\r\n");
 }
@@ -84,7 +85,7 @@ static void board_init(void)
 
 	at_init();
 
-	ret = esp8266_init(0);
+	ret = esp8266_init(0); // esp8266初始化
 	printf("[ESP8266] init code: %d\r\n", ret);
 }
 
@@ -149,8 +150,8 @@ void onenet_data_update(void)
 {
 	onenet_data[0].value.f32_val += 0.1f; // 模拟数据
 	onenet_data[1].value.f32_val += 0.1f; // 模拟数据
-	
-	if(onenet_data[0].value.f32_val > 40.0f)
+
+	if (onenet_data[0].value.f32_val > 40.0f)
 	{
 		onenet_data[0].value.f32_val = 0;
 		onenet_data[1].value.f32_val = 0;
@@ -206,8 +207,8 @@ void app_main(void)
 
 		if (tick % 50 == 0) // 每5000ms执行一次
 		{
-			onenet_data_update(); // 属性数据更新
-			onenet_mqtt_publish_post_data(onenet_data, ONENET_DATA_NUM);	//数据发布
+			onenet_data_update();										 // 属性数据更新
+			onenet_mqtt_publish_post_data(onenet_data, ONENET_DATA_NUM); // 数据发布
 		}
 
 		tick++;
