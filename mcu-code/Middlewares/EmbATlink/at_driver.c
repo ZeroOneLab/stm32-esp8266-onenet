@@ -207,8 +207,11 @@ static uint8_t at_cmd_send_and_wait(uint8_t lun, char *cmd, char **out_recv, con
         else if (res == 1)
             AT_LOG_W("[AT:%d][RETRY][%hhu] CMD:%s, TIME OUT\r\n", lun, send_cnt, cmd);
         else if (res == 2)
-            AT_LOG_E("[AT:%d][ERR][%hhu] CMD:%s, RECV: %s\r\n", lun, send_cnt, cmd, at_recv_buffer[lun]);
+            AT_LOG_W("[AT:%d][ERR][%hhu] CMD:%s, RECV: %s\r\n", lun, send_cnt, cmd, at_recv_buffer[lun]);
     }
+
+    if (res != 0)
+        AT_LOG_E("[AT:%d][ERR] CMD:%s\r\n", lun, cmd);
 
     at_port_exit_critical(lun);
 

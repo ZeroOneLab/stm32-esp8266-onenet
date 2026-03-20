@@ -17,7 +17,8 @@ onenet_pub_data_t onenet_data[ONENET_DATA_NUM] = {
 };
 // clang-format on
 
-static char onenet_mqtt_post_json_buf[256]; // 用于存储MQTT发布的json数据，如果onenet的属性数量多，需要调大缓冲区
+// 用于存储MQTT发布的json数据，如果onenet的属性数量多，需要调大缓冲区，并调节 AT_SEND_BUFFER_SIZE 宏大小
+static char onenet_mqtt_post_json_buf[256];
 
 /**
  * @breif   MQTT发布数据

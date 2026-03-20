@@ -38,9 +38,9 @@
 #define AT_RECV_BUFFER_SIZE 512 /* 接收缓冲区大小 */
 #define AT_SEND_BUFFER_SIZE 512 /* 发送缓冲区大小 */
 
-#define AT_LOG_I(fmt, ...) printf(fmt, ##__VA_ARGS__)
-#define AT_LOG_E(fmt, ...) printf(fmt, ##__VA_ARGS__)
-#define AT_LOG_W(fmt, ...) printf(fmt, ##__VA_ARGS__)
+#define AT_LOG_I(fmt, ...) printf("\x1b[32m" fmt "\x1b[0m", ##__VA_ARGS__)  // 绿色打印
+#define AT_LOG_W(fmt, ...) printf("\x1b[33m" fmt "\x1b[0m", ##__VA_ARGS__)  // 黄色打印
+#define AT_LOG_E(fmt, ...) printf("\x1b[31m" fmt "\x1b[0m", ##__VA_ARGS__)  // 红色打印
 
 typedef enum
 {
